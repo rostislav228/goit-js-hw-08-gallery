@@ -49,7 +49,8 @@ function onOpenModal(e) {
 
   addImgModal(currentPicture);
 
-  refs.modalClose.addEventListener('click', onCloseModal.bind(currentPicture));
+  refs.modal.addEventListener('click', onCloseModal.bind(currentPicture));
+  document.addEventListener('keydown', onCloseModal.bind(currentPicture));
 }
 
 function openModal() {
@@ -57,13 +58,22 @@ function openModal() {
 }
 
 function addImgModal(object) {
-  object.image.src = `${object.src}`;
+  object.image.src = `${object.src.href}`;
   object.image.alt = `${object.alt}`;
 }
 
-function onCloseModal() {
+function onCloseModal(e) {
+  if (
+    !e.target.classList.contains('lightbox__overlay') &&
+    e.target.dataset.action !== 'close-lightbox' &&
+    e.key !== 'Escape'
+  ) {
+    return;
+  }
+
   refs.modal.classList.remove('is-open');
   this.image.src = '';
   this.image.alt = '';
-  refs.modalClose.removeEventListener('click', onCloseModal);
+  refs.modal.removeEventListener('click', onCloseModal);
+}
 }
