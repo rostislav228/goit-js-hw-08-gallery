@@ -76,4 +76,3 @@ function onCloseModal(e) {
   this.image.alt = '';
   refs.modal.removeEventListener('click', onCloseModal);
 }
-}
